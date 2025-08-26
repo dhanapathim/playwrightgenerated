@@ -40,12 +40,13 @@ export default defineConfig({
   use: {
   baseURL: 'https://petstore3.swagger.io/api/v3',
 
+  
     /* Base URL to use in actions like `await page.goto('/')`. */
     
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
     extraHTTPHeaders,
-  },
+    },
 
   /* Configure projects for major browsers */
   /* Run your local dev server before starting the tests */
