@@ -9,13 +9,13 @@ const STORAGE_STATE_PATH = path.join(process.cwd(), 'auth.json');
 async function globalSetup() {
   const authData = { extraHTTPHeaders: {} };
 
-  // Detected: API Key (api_key)
+  // Detected authentication methods from OpenAPI spec: apiKey, oauth2
+
   const API_KEY_VALUE = process.env.API_KEY_VALUE;
   if (API_KEY_VALUE) {
     authData.extraHTTPHeaders['api_key'] = API_KEY_VALUE;
   }
 
-  // Detected: OAuth2 (petstore_auth)
   const OAUTH_ACCESS_TOKEN = process.env.OAUTH_ACCESS_TOKEN;
   if (OAUTH_ACCESS_TOKEN) {
     authData.extraHTTPHeaders['Authorization'] = `Bearer ${OAUTH_ACCESS_TOKEN}`;
@@ -39,7 +39,7 @@ async function globalSetup() {
   const envData = [
     `OS=${os.type()} ${os.release()}`,
     `Node=${process.version}`,
-    `BaseURL=${process.env.BASE_URL || "https://petstore3.swagger.io/api/v3"}`,
+    `BaseURL=${process.env.BASE_URL || "http://localhost:3000"}`,
     `Browser=Playwright Default`,
     `Project=PetStore`,
     `Organization=Accion Labs`,

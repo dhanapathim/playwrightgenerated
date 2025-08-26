@@ -29,10 +29,11 @@ Some useful links:
 
 ## 🚀 Endpoints
 - `POST /pet` → Add a new pet to the store.
+- `PUT /pet` → Update an existing pet.
 - `GET /pet/{petId}` → Find pet by ID.
 - `POST /pet/{petId}` → Updates a pet in the store with form data.
 - `POST /user` → Create user.
-- `POST /user/createWithList` → Creates list of users with given input array.
+- `GET /user/login` → Logs user into the system.
 
 ---
 
