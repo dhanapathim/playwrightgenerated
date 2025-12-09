@@ -12,34 +12,26 @@ It is designed to:
 
 ---
 
-## Swagger Petstore - OpenAPI 3.0
+## RESTful API Demo
 
-This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
-Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
-You can now help us improve the API whether it's by making changes to the definition itself or to the code.
-That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
-
-Some useful links:
-- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
-- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+This is a sample OpenAPI 3.0.3 specification for [https://restful-api.dev/](https://restful-api.dev/).
+It provides endpoints for creating, reading, updating, and deleting demo items.
 
 ## 📌 API Overview
-- **Version:** 1.0.12
-- **Base URLs:** https://petstore3.swagger.io/api/v3
+- **Version:** 1.0.0
+- **Base URLs:** https://api.restful-api.dev
 
 ## 🚀 Endpoints
-- `POST /pet` → Add a new pet to the store.
-- `PUT /pet` → Update an existing pet.
-- `GET /pet/{petId}` → Find pet by ID.
-- `POST /pet/{petId}` → Updates a pet in the store with form data.
-- `POST /user` → Create user.
-- `GET /user/login` → Logs user into the system.
+- `GET /objects` → Get all objects
+- `POST /objects` → Create a new object
+- `GET /objects/{id}` → Get object by ID
+- `PUT /objects/{id}` → Update an existing object
+- `DELETE /objects/{id}` → Delete an object
 
 ---
 
 ## 🔑 Authentication
-- petstore_auth: oauth2 ()
-- api_key: apiKey (header)
+No authentication required.
 
 ---
 
@@ -71,8 +63,7 @@ package.json
 package-lock.json
 playwright.config.js
 README.md
-
-
+```
 
 ## 🧪 How to Test (with Playwright)
 
@@ -84,8 +75,9 @@ Playwright tests can be auto-generated to cover:
 Run tests:
 ```bash
 npx playwright test
-
 npx allure generate ./allure-results --clean -o ./allure-report
 npx allure open ./allure-report
+```
+
 
 

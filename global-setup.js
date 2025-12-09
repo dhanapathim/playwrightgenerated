@@ -9,19 +9,17 @@ const STORAGE_STATE_PATH = path.join(process.cwd(), 'auth.json');
 async function globalSetup() {
   const authData = { extraHTTPHeaders: {} };
 
-  // API Key authentication (detected: api_key)
+
   const API_KEY_VALUE = process.env.API_KEY_VALUE;
   if (API_KEY_VALUE) {
     authData.extraHTTPHeaders['api_key'] = API_KEY_VALUE;
   }
 
-  // OAuth2 authentication (detected: petstore_auth)
   const OAUTH_ACCESS_TOKEN = process.env.OAUTH_ACCESS_TOKEN;
   if (OAUTH_ACCESS_TOKEN) {
     authData.extraHTTPHeaders['Authorization'] = `Bearer ${OAUTH_ACCESS_TOKEN}`;
   }
 
-  // HTTP Basic authentication (not explicitly detected in this spec, but included for completeness)
   const BASIC_AUTH_USERNAME = process.env.BASIC_AUTH_USERNAME;
   const BASIC_AUTH_PASSWORD = process.env.BASIC_AUTH_PASSWORD;
   if (BASIC_AUTH_USERNAME && BASIC_AUTH_PASSWORD) {
