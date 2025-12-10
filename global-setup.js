@@ -9,7 +9,6 @@ const STORAGE_STATE_PATH = path.join(process.cwd(), 'auth.json');
 async function globalSetup() {
   const authData = { extraHTTPHeaders: {} };
 
-
   const API_KEY_VALUE = process.env.API_KEY_VALUE;
   if (API_KEY_VALUE) {
     authData.extraHTTPHeaders['api_key'] = API_KEY_VALUE;
@@ -41,16 +40,17 @@ async function globalSetup() {
   const resultsDir = path.join(__dirname, "allure-results");
   const envFilePath = path.join(resultsDir, "environment.properties");
 
+  // Ensure allure-results directory exists
   if (!fs.existsSync(resultsDir)) {
     fs.mkdirSync(resultsDir, { recursive: true });
   }
   const envData = [
     `OS=${os.type()} ${os.release()}`,
     `Node=${process.version}`,
-    `BaseURL=${process.env.BASE_URL || "http://localhost:3000"}`,
+    `BaseURL=${process.env.BASE_URL || "https://api.restful-api.dev"}`, // Updated default URL from spec
     `Browser=Playwright Default`,
-    `Project=PetStore`,
-    `Organization=Accion Labs`,
+    `Project=RESTful API Demo`, // Updated project name from spec info.title
+    `Organization=RESTful API Dev`, // Updated organization from spec info.contact.name
   ].join("\n");
 
   fs.writeFileSync(envFilePath, envData, "utf-8");

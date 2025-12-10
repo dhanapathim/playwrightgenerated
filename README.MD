@@ -65,6 +65,8 @@ playwright.config.js
 README.md
 ```
 
+
+
 ## 🧪 How to Test (with Playwright)
 
 Playwright tests can be auto-generated to cover:
@@ -75,9 +77,9 @@ Playwright tests can be auto-generated to cover:
 Run tests:
 ```bash
 npx playwright test
+
 npx allure generate ./allure-results --clean -o ./allure-report
 npx allure open ./allure-report
 ```
-
 
 
