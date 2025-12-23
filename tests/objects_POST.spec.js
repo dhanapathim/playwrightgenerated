@@ -2,19 +2,12 @@ import { expect } from '@playwright/test'
 import { test } from '../fixtures/apiWithAllure'
 
 const exampleNewObjectJson = {
-  name: "Apple MacBook Pro 16",
+  name: 'Apple MacBook Pro 16',
   data: {
     year: 2023,
     price: 2499.99,
-    "CPU model": "Apple M3 Max",
-    "Hard disk size": "1 TB"
-  }
-}
-
-const badNewObjectJson = {
-  data: {
-    year: 2023,
-    price: 2499.99
+    'CPU model': 'Apple M3 Max',
+    'Hard disk size': '1 TB'
   }
 }
 
@@ -22,40 +15,66 @@ const badNewObjectJson = {
 test.describe('/objects - POST JSON → JSON', () => {
   test('200 - Object created successfully', async ({ request, baseURL }) => {
     const requestPayload = exampleNewObjectJson
+
     const response = await request.post(`${baseURL}/objects`, {
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       data: requestPayload
     })
 
     const body = await response.json()
-    console.log('Request Payload:', requestPayload)
-    console.log('200 JSON→JSON:', body)
+    console.log('200 JSON→JSON Request Payload:', requestPayload)
+    console.log('200 JSON→JSON Response Body:', body)
     expect(response.status()).toBe(200)
     expect(body).toHaveProperty('id')
     expect(typeof body.id).toBe('string')
-    expect(body).toHaveProperty('name', 'Apple MacBook Pro 16')
+    expect(body).toHaveProperty('name', exampleNewObjectJson.name)
     expect(body).toHaveProperty('data')
-    expect(body.data).toHaveProperty('year', 2023)
-    expect(body.data).toHaveProperty('price', 2499.99)
-    expect(body.data).toHaveProperty('CPU model', 'Apple M3 Max')
-    expect(body.data).toHaveProperty('Hard disk size', '1 TB')
+    expect(typeof body.data).toBe('object')
+    expect(body.data).toHaveProperty('year', exampleNewObjectJson.data.year)
+    expect(body.data).toHaveProperty('price', exampleNewObjectJson.data.price)
+    expect(body.data).toHaveProperty('CPU model', exampleNewObjectJson.data['CPU model'])
+    expect(body.data).toHaveProperty('Hard disk size', exampleNewObjectJson.data['Hard disk size'])
   })
 
-  test('400 - Invalid input', async ({ request, baseURL }) => {
-    const requestPayload = badNewObjectJson
+  test('400 - Invalid input (missing name)', async ({ request, baseURL }) => {
+    const invalidPayload = {
+      data: {
+        year: 2023
+      }
+    }
+
     const response = await request.post(`${baseURL}/objects`, {
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      data: requestPayload
+      data: invalidPayload
     })
+    console.log('400 JSON→JSON Request Payload:', invalidPayload)
+    console.log('400 JSON→JSON Response Body:', await response.text())
+    expect(response.status()).toBe(400)
+  })
 
-    console.log('Request Payload:', requestPayload)
-    console.log('400 JSON→JSON:', await response.text())
+  test('400 - Invalid input (wrong data type for name)', async ({ request, baseURL }) => {
+    const invalidPayload = {
+      name: 123,
+      data: {
+        year: 2023
+      }
+    }
+
+    const response = await request.post(`${baseURL}/objects`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      data: invalidPayload
+    })
+    console.log('400 JSON→JSON Request Payload:', invalidPayload)
+    console.log('400 JSON→JSON Response Body:', await response.text())
     expect(response.status()).toBe(400)
   })
 })

@@ -1,12 +1,12 @@
 import { expect } from '@playwright/test'
 import { test } from '../fixtures/apiWithAllure'
 
-// -------------------- 1. GET → JSON --------------------
+// -------------------- 1. No Request Body → JSON --------------------
 test.describe('/objects - GET → JSON', () => {
   test('200 - A list of objects', async ({ request, baseURL }) => {
     const response = await request.get(`${baseURL}/objects`, {
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'application/json'
       }
     })
 

@@ -9,28 +9,10 @@ const STORAGE_STATE_PATH = path.join(process.cwd(), 'auth.json');
 async function globalSetup() {
   const authData = { extraHTTPHeaders: {} };
 
-  const API_KEY_VALUE = process.env.API_KEY_VALUE;
-  if (API_KEY_VALUE) {
-    authData.extraHTTPHeaders['api_key'] = API_KEY_VALUE;
-  }
-
-  const OAUTH_ACCESS_TOKEN = process.env.OAUTH_ACCESS_TOKEN;
-  if (OAUTH_ACCESS_TOKEN) {
-    authData.extraHTTPHeaders['Authorization'] = `Bearer ${OAUTH_ACCESS_TOKEN}`;
-  }
-
-  const BASIC_AUTH_USERNAME = process.env.BASIC_AUTH_USERNAME;
-  const BASIC_AUTH_PASSWORD = process.env.BASIC_AUTH_PASSWORD;
-  if (BASIC_AUTH_USERNAME && BASIC_AUTH_PASSWORD) {
-    const credentials = Buffer.from(`${BASIC_AUTH_USERNAME}:${BASIC_AUTH_PASSWORD}`).toString('base64');
-    authData.extraHTTPHeaders['Authorization'] = `Basic ${credentials}`;
-  } else if (BASIC_AUTH_USERNAME || BASIC_AUTH_PASSWORD) {
-    throw new Error('Both BASIC_AUTH_USERNAME and BASIC_AUTH_PASSWORD must be set for HTTP Basic authentication.');
-  }
-
-  if (Object.keys(authData.extraHTTPHeaders).length === 0) {
-    throw new Error('No authentication credentials found. Please set API_KEY_VALUE, OAUTH_ACCESS_TOKEN, or BASIC_AUTH_USERNAME/PASSWORD environment variables.');
-  }
+  // No authentication schemes (apiKey, http, oauth2) were detected in the OpenAPI specification.
+  // Therefore, no authentication-specific configuration is applied based on the spec.
+  // If your API requires authentication not declared in the spec,
+  // you would need to manually configure it here.
 
   fs.writeFileSync(
     STORAGE_STATE_PATH,
@@ -40,17 +22,16 @@ async function globalSetup() {
   const resultsDir = path.join(__dirname, "allure-results");
   const envFilePath = path.join(resultsDir, "environment.properties");
 
-  // Ensure allure-results directory exists
   if (!fs.existsSync(resultsDir)) {
     fs.mkdirSync(resultsDir, { recursive: true });
   }
   const envData = [
     `OS=${os.type()} ${os.release()}`,
     `Node=${process.version}`,
-    `BaseURL=${process.env.BASE_URL || "https://api.restful-api.dev"}`, // Updated default URL from spec
+    `BaseURL=${process.env.BASE_URL || "https://api.restful-api.dev"}`,
     `Browser=Playwright Default`,
-    `Project=RESTful API Demo`, // Updated project name from spec info.title
-    `Organization=RESTful API Dev`, // Updated organization from spec info.contact.name
+    `Project=RESTful API Demo`,
+    `Organization=Accion Labs`,
   ].join("\n");
 
   fs.writeFileSync(envFilePath, envData, "utf-8");
